@@ -1,0 +1,24 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "extends": "standart",
+  "root": true,
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "rules": {
+    "space-after-function-name": "off",
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "quotes": ["error", "single"],
+    "semi": ["error", "never"],
+    "object-curly-spacing": ["error", "always"],
+    "key-spacing": ["error", {"afterColon": true}],
+    "no-multi-spaces": "error"
+  },
+  "globals": {
+    "__folders": true
+  }
+}

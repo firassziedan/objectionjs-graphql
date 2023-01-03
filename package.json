@@ -1,0 +1,47 @@
+{
+  "name": "objection-graphql",
+  "version": "0.1",
+  "description": "Automatically generates GraphQL schema for objection.js models and allows to extend the schema with custom mutations and subscriptions",
+  "keywords": [
+    "GraphQL",
+    "SQL",
+    "objection.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/firassziedan/objection-graphql.git"
+  },
+  "license": "MIT",
+  "author": "Firass Ziedan <firass.ziedan@gmail.com>",
+  "main": "objection-graphql.js",
+  "files": [
+    "README.md",
+    "LICENSE",
+    "lib/*",
+    "objection-graphql.js"
+  ],
+  "scripts": {
+    "lint:js": "eslint . --fix"
+  },
+  "dependencies": {
+    "graphql-type-json": "^0.3.2",
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "expect.js": "^0.3.1",
+    "graphql": "^0.13.2",
+    "objection": "^0.4.0",
+    "standart": "^6.1.0"
+  },
+  "peerDependencies": {
+    "graphql": "> 2.0.0",
+    "objection": "^0.4.0"
+  },
+  "engines": {
+    "node": ">= 14.0.0"
+  }
+}

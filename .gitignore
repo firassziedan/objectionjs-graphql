@@ -1,0 +1,10 @@
+node_modules
+
+# IDE files
+.idea
+.vscode
+
+# Other files
+*.iml
+*.DS_Store
+
