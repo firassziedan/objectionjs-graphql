@@ -1,10 +1,10 @@
-# objection-graphql
+# objectionjs-graphql
 
 Automatic GraphQL API generator for objection.js models.
 
 ## Usage
 
-objection-graphql automatically generates a [GraphQL](https://github.com/facebook/graphql) schema
+objectionjs-graphql automatically generates a [GraphQL](https://github.com/facebook/graphql) schema
 for [objection.js](https://github.com/Vincit/objection.js) models. The schema is created based on the `jsonSchema`
 and `relationMappings` properties of the models, mainly it's use [withGraphFetched](https://vincit.github.io/objection.js/api/query-builder/eager-methods.html#withgraphfetched) to build and fetch the relation `relationMappings` query.
 It creates a rich set of filter arguments for the
@@ -14,7 +14,7 @@ The following example creates a schema for three models `Person`, `Movie` and `R
 
 ```js
 const graphql = require('graphql').graphql;
-const graphQlBuilder = require('objection-graphql').builder;
+const graphQlBuilder = require('objectionjs-graphql').builder;
 
 // Objection.js models.
 const Movie = require('./models/Movie');
@@ -29,7 +29,7 @@ const graphQlSchema = graphQlBuilder()
 const graphQlSchema = async() => {
     const builder = await graphQlBuilder()
         .allModels([Movie, Person, Review])
-    
+
     return builder.build()
 }
 
@@ -136,8 +136,8 @@ const graphQlSchema = graphQlBuilder()
 ```
 
 # Auto Generated JsonSchema
-This package will auto generate the `jsonSchema` for you if you don't have one. 
-It will use the model's table schema to generate structure the jsonSchema. 
+This package will auto generate the `jsonSchema` for you if you don't have one.
+It will use the model's table schema to generate structure the jsonSchema.
 
 # Extending your schema with mutations
 
