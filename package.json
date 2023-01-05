@@ -21,7 +21,8 @@
     "objection-graphql.js"
   ],
   "scripts": {
-    "lint:js": "eslint . --fix"
+    "lint:js": "eslint . --fix",
+    "test": "npm run lint:js && echo 'No tests yet'"
   },
   "dependencies": {
     "graphql-type-json": "^0.3.2",
