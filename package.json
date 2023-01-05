@@ -13,12 +13,12 @@
   },
   "license": "MIT",
   "author": "Firass Ziedan <firass.ziedan@gmail.com>",
-  "main": "objection-graphql.js",
+  "main": "objectionjs-graphql.js",
   "files": [
     "README.md",
     "LICENSE",
     "lib/*",
-    "objection-graphql.js"
+    "objectionjs-graphql.js"
   ],
   "scripts": {
     "lint:js": "eslint . --fix",
