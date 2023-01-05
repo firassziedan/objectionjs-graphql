@@ -1,4 +1,3 @@
-
 const SchemaBuilder = require('./lib/SchemaBuilder')
 
 module.exports = {
