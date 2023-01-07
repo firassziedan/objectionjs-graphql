@@ -5,7 +5,8 @@
   "keywords": [
     "GraphQL",
     "SQL",
-    "objection.js"
+    "objection.js",
+    "objection-graphql"
   ],
   "repository": {
     "type": "git",
@@ -39,8 +40,8 @@
     "standart": "^6.1.0"
   },
   "peerDependencies": {
-    "graphql": "> 2.0.0",
-    "objection": "^0.4.0"
+    "graphql": "> 15.0.0",
+    "objection": "^3.0.0"
   },
   "engines": {
     "node": ">= 14.0.0"
