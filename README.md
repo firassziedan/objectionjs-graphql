@@ -25,44 +25,44 @@ const Review = require('./models/Review');
 
 // This is all you need to do to generate the schema.
 const graphQlSchema = graphQlBuilder()
-	.allModels([Movie, Person, Review])
-	.build();
+ .allModels([Movie, Person, Review])
+ .build();
 
 const graphQlSchema = async () => {
-	const builder = await graphQlBuilder().allModels([Movie, Person, Review]);
+ const builder = await graphQlBuilder().allModels([Movie, Person, Review]);
 
-	return builder.build();
+ return builder.build();
 };
 
 // Execute a GraphQL query.
 graphql(
-	graphQlSchema,
-	`
-		{
-			movies(nameLike: "%erminato%", range: [0, 2], orderBy: releaseDate) {
-				name
-				releaseDate
+ graphQlSchema,
+ `
+  {
+   movies(nameLike: "%erminato%", range: [0, 2], orderBy: releaseDate) {
+    name
+    releaseDate
 
-				actors(gender: Male, ageLte: 100, orderBy: firstName) {
-					id
-					firstName
-					age
-				}
+    actors(gender: Male, ageLte: 100, orderBy: firstName) {
+     id
+     firstName
+     age
+    }
 
-				reviews(starsIn: [3, 4, 5], orderByDesc: stars) {
-					title
-					text
-					stars
+    reviews(starsIn: [3, 4, 5], orderByDesc: stars) {
+     title
+     text
+     stars
 
-					reviewer {
-						firstName
-					}
-				}
-			}
-		}
-	`,
+     reviewer {
+      firstName
+     }
+    }
+   }
+  }
+ `,
 ).then((result) => {
-	console.log(result.data.movies);
+ console.log(result.data.movies);
 });
 ```
 
@@ -110,36 +110,36 @@ Here's an example how you could implement a `NotEq` filter for primitive values:
 const graphql = require('graphql');
 
 const graphQlSchema = graphQlBuilder()
-	.model(Movie)
-	.model(Person)
-	.model(Review)
-	.argFactory((fields, modelClass) => {
-		const args = {};
+ .model(Movie)
+ .model(Person)
+ .model(Review)
+ .argFactory((fields, modelClass) => {
+  const args = {};
 
-		_.forOwn(fields, (field, propName) => {
-			// Skip all non primitive fields.
-			if (
-				field.type instanceof graphql.GraphQLObjectType ||
-				field.type instanceof graphql.GraphQLList
-			) {
-				return;
-			}
+  _.forOwn(fields, (field, propName) => {
+   // Skip all non primitive fields.
+   if (
+    field.type instanceof graphql.GraphQLObjectType ||
+    field.type instanceof graphql.GraphQLList
+   ) {
+    return;
+   }
 
-			args[propName + 'NotEq'] = {
-				// For our filter the type of the value needs to be
-				// the same as the type of the field.
-				type: field.type,
+   args[propName + 'NotEq'] = {
+    // For our filter the type of the value needs to be
+    // the same as the type of the field.
+    type: field.type,
 
-				query: (query, value) => {
-					// query is an objection.js QueryBuilder instance.
-					query.where(propName, '<>', value);
-				},
-			};
-		});
+    query: (query, value) => {
+     // query is an objection.js QueryBuilder instance.
+     query.where(propName, '<>', value);
+    },
+   };
+  });
 
-		return args;
-	})
-	.build();
+  return args;
+ })
+ .build();
 ```
 
 # Auto Generated JsonSchema
@@ -156,67 +156,67 @@ Function in this case plays as a strategy which receives current builder as a fi
 ```js
 //...
 const personType = new GraphQLObjectType({
-	name: 'PersonType',
-	description: 'Use this object to create new person',
-	fields: () => ({
-		id: {
-			type: new GraphQLNonNull(GraphQLInt),
-			description: 'Id',
-		},
-		firstName: {
-			type: new GraphQLNonNull(GraphQLString),
-			description: 'First Name',
-		},
-		lastName: {
-			type: new GraphQLNonNull(GraphQLString),
-			description: 'Last Name',
-		},
-	}),
+ name: 'PersonType',
+ description: 'Use this object to create new person',
+ fields: () => ({
+  id: {
+   type: new GraphQLNonNull(GraphQLInt),
+   description: 'Id',
+  },
+  firstName: {
+   type: new GraphQLNonNull(GraphQLString),
+   description: 'First Name',
+  },
+  lastName: {
+   type: new GraphQLNonNull(GraphQLString),
+   description: 'Last Name',
+  },
+ }),
 });
 
 const createPersonInputType = new GraphQLInputObjectType({
-	name: 'CreatePersonType',
-	description: 'Person',
-	fields: () => ({
-		firstName: {
-			type: new GraphQLNonNull(GraphQLString),
-			description: 'First Name',
-		},
-		lastName: {
-			type: new GraphQLNonNull(GraphQLString),
-			description: 'Last Name',
-		},
-	}),
+ name: 'CreatePersonType',
+ description: 'Person',
+ fields: () => ({
+  firstName: {
+   type: new GraphQLNonNull(GraphQLString),
+   description: 'First Name',
+  },
+  lastName: {
+   type: new GraphQLNonNull(GraphQLString),
+   description: 'Last Name',
+  },
+ }),
 });
 
 const mutationType = new GraphQLObjectType({
-	name: 'RootMutationType',
-	description: 'Domain API actions',
-	fields: () => ({
-		createPerson: {
-			description: 'Creates a new person',
-			type: personType,
-			args: {
-				input: { type: new GraphQLNonNull(createPersonInputType) },
-			},
-			resolve: (root, inputPerson) => {
-				const { firstName, lastName } = inputPerson.input;
-				return {
-					id: 1,
-					firstName,
-					lastName,
-				};
-			},
-		},
-	}),
+ name: 'RootMutationType',
+ description: 'Domain API actions',
+ fields: () => ({
+  createPerson: {
+   description: 'Creates a new person',
+   type: personType,
+   args: {
+    input: { type: new GraphQLNonNull(createPersonInputType) },
+   },
+   resolve: (root, inputPerson) => {
+    const { firstName, lastName } = inputPerson.input;
+    return {
+     id: 1,
+     firstName,
+     lastName,
+    };
+   },
+  },
+ }),
 });
 
 //Here you can use a GraphQLObjectType or function as an argument for extendWithMutations
 schema = mainModule
-	.builder()
-	.model(Person)
-	.extendWithMutations(mutationType)
-	.build();
+ .builder()
+ .model(Person)
+ .extendWithMutations(mutationType)
+ .build();
 ```
 
 # Extending your schema with subscriptions
@@ -231,43 +231,43 @@ import { PubSub } from 'graphql-subscriptions';
 const pubsub = new PubSub();
 //...
 const personType = new GraphQLObjectType({
-	name: 'PersonType',
-	description: 'Person',
-	fields: () => ({
-		id: {
-			type: new GraphQLNonNull(GraphQLInt),
-			description: 'First Name',
-		},
-		firstName: {
-			type: new GraphQLNonNull(GraphQLString),
-			description: 'First Name',
-		},
-		lastName: {
-			type: new GraphQLNonNull(GraphQLString),
-			description: 'Last Name',
-		},
-	}),
+ name: 'PersonType',
+ description: 'Person',
+ fields: () => ({
+  id: {
+   type: new GraphQLNonNull(GraphQLInt),
+   description: 'First Name',
+  },
+  firstName: {
+   type: new GraphQLNonNull(GraphQLString),
+   description: 'First Name',
+  },
+  lastName: {
+   type: new GraphQLNonNull(GraphQLString),
+   description: 'Last Name',
+  },
+ }),
 });
 
 const subscriptionType = new GraphQLObjectType({
-	name: 'RootSubscriptionType',
-	description: 'Domain subscriptions',
-	fields: () => ({
-		personCreated: {
-			description: 'A new person created',
-			type: personType,
-			resolve: (payload: any) => payload,
-			subscribe: () => pubsub.asyncIterator('PERSON_CREATED'),
-		},
-	}),
+ name: 'RootSubscriptionType',
+ description: 'Domain subscriptions',
+ fields: () => ({
+  personCreated: {
+   description: 'A new person created',
+   type: personType,
+   resolve: (payload: any) => payload,
+   subscribe: () => pubsub.asyncIterator('PERSON_CREATED'),
+  },
+ }),
 });
 
 //Here you can use a GraphQLObjectType or function as an argument for extendWithSubscriptions
 schema = mainModule
-	.builder()
-	.model(Person)
-	.extendWithSubscriptions(subscriptionType)
-	.build();
+ .builder()
+ .model(Person)
+ .extendWithSubscriptions(subscriptionType)
+ .build();
 ```
 
 # Misc
@@ -278,27 +278,27 @@ You can change the default filter suffixes and special filter names using the `d
 
 ```js
 const graphQlSchema = graphQlBuilder()
-	.model(Movie)
-	.model(Person)
-	.model(Review)
-	.defaultArgNames({
-		eq: '_eq',
-		gt: '_gt',
-		gte: '_gte',
-		lt: '_lt',
-		lte: '_lte',
-		like: '_like',
-		isNull: '_is_null',
-		likeNoCase: '_like_no_case',
-		in: '_in',
-		notIn: '_not_in',
-		orderBy: 'order_by',
-		orderByDesc: 'order_by_desc',
-		range: 'range',
-		limit: 'limit',
-		offset: 'offset',
-	})
-	.build();
+ .model(Movie)
+ .model(Person)
+ .model(Review)
+ .defaultArgNames({
+  eq: '_eq',
+  gt: '_gt',
+  gte: '_gte',
+  lt: '_lt',
+  lte: '_lte',
+  like: '_like',
+  isNull: '_is_null',
+  likeNoCase: '_like_no_case',
+  in: '_in',
+  notIn: '_not_in',
+  orderBy: 'order_by',
+  orderByDesc: 'order_by_desc',
+  range: 'range',
+  limit: 'limit',
+  offset: 'offset',
+ })
+ .build();
 ```
 
 Now you would have `myProp_lt: value` instead of the default `myPropLt: value`.
@@ -308,12 +308,12 @@ plural and singular names for the root fields like so:
 
 ```js
 const graphQlSchema = graphQlBuilder()
-	.model(Movie)
-	.model(Person, {
-		listFieldName: 'people',
-		fieldName: 'person',
-	})
-	.model(Review);
+ .model(Movie)
+ .model(Person, {
+  listFieldName: 'people',
+  fieldName: 'person',
+ })
+ .model(Review);
 ```
 
 ## onQuery
@@ -322,31 +322,31 @@ You can modify the root query by passing an object with `onQuery` method as the 
 
 ```js
 const graphQlSchema = graphQlBuilder()
-	.model(Movie)
-	.model(Person)
-	.model(Review)
-	.build();
+ .model(Movie)
+ .model(Person)
+ .model(Review)
+ .build();
 
 expressApp.get('/graphql', (req, res, next) => {
-	graphql(graphQlSchema, req.query.graph, {
-		// builder is an objection.js query builder.
-		onQuery(builder) {
-			// You can for example store the the logged in user to builder context
-			// so that it can be accessed from model hooks.
-			builder.mergeContext({
-				user: req.user,
-			});
+ graphql(graphQlSchema, req.query.graph, {
+  // builder is an objection.js query builder.
+  onQuery(builder) {
+   // You can for example store the the logged in user to builder context
+   // so that it can be accessed from model hooks.
+   builder.mergeContext({
+    user: req.user,
+   });
 
-			// Or change the eager fetching algorithm.
-			builder.eagerAlgorithm(Model.JoinEagerAlgorithm);
-		},
-	})
-		.then((result) => {
-			res.send(result);
-		})
-		.catch((err) => {
-			next(err);
-		});
+   // Or change the eager fetching algorithm.
+   builder.eagerAlgorithm(Model.JoinEagerAlgorithm);
+  },
+ })
+  .then((result) => {
+   res.send(result);
+  })
+  .catch((err) => {
+   next(err);
+  });
 });
 ```
 
