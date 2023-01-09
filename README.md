@@ -1,5 +1,7 @@
 # objectionjs-graphql
 
+[![npm version](https://badge.fury.io/js/objectionjs-graphql.svg)](https://badge.fury.io/js/objectionjs-graphql)
+
 Automatic GraphQL API generator for objection.js models.
 
 Credit: This project is based on [objection-graphql](https://www.npmjs.com/package/objection-graphql)
@@ -8,11 +10,11 @@ Credit: This project is based on [objection-graphql](https://www.npmjs.com/packa
 
 objectionjs-graphql automatically generates a [GraphQL](https://github.com/facebook/graphql) schema
 for [objection.js](https://github.com/Vincit/objection.js) models. The schema is created based on the `jsonSchema`
-and `relationMappings` properties of the models, mainly it's use [withGraphFetched](https://vincit.github.io/objection.js/api/query-builder/eager-methods.html#withgraphfetched) to build and fetch the relation `relationMappings` query.
+and `relationMappings` properties of the models, mainly its use [withGraphFetched](https://vincit.github.io/objection.js/api/query-builder/eager-methods.html#withgraphfetched) to build and fetch the relation `relationMappings` query.
 It creates a rich set of filter arguments for the
 relations and provides a simple way to add custom filters.
 
-The following example creates a schema for three models `Person`, `Movie` and `Review` and executes a GraphQL query:
+The following example creates a schema for three models `Person`, `Movie`, and `Review` and executes a GraphQL query:
 
 ```js
 const graphql = require('graphql').graphql;
@@ -67,9 +69,9 @@ graphql(
 ```
 
 The example query used some of the many default filter arguments. For example the `nameLike: "%erminato%"`
-filter is mapped into a where clause `where name like '%erminato%'`. Similarily the `ageLte: 100` is mapped into
-a `where age <= 100` clause. In addition to the property filters there are some special arguments like `orderBy` and
-`range`. Check out [this table](#filters) for a full list of filter arguments available by default.
+the filter is mapped into a where clause `where name like '%erminato%'`. Similarly the `ageLte: 100` is mapped into
+a `where age <= 100` clause. In addition to the property filters, there are some special arguments like `orderBy` and
+`range`. Check out [this table](#filters) for a complete list of filter arguments available by default.
 
 # Getting started
 
@@ -79,7 +81,7 @@ If you are unfamiliar with objection.js you should try our [example project](htt
 # Filters
 
 | argument                | type                 | action                               |
-| ----------------------- | -------------------- | ------------------------------------ |
+|-------------------------|----------------------|--------------------------------------|
 | `prop: value`           | property type        | `prop = value`                       |
 | `propEq: value`         | property type        | `prop = value`                       |
 | `propGt: value`         | property type        | `prop > value`                       |
@@ -95,7 +97,7 @@ If you are unfamiliar with objection.js you should try our [example project](htt
 # Special arguments
 
 | argument              | action                                                |
-| --------------------- | ----------------------------------------------------- |
+|-----------------------|-------------------------------------------------------|
 | `orderBy: prop`       | Order the result by some property                     |
 | `orderByDesc: prop`   | Order the result by some property in descending order |
 | `range: [start, end]` | Select a range. Doesn't work for relations!           |
@@ -104,7 +106,7 @@ If you are unfamiliar with objection.js you should try our [example project](htt
 
 # Adding your own custom arguments
 
-Here's an example how you could implement a `NotEq` filter for primitive values:
+Here's an example of how you could implement a `NotEq` filter for primitive values:
 
 ```js
 const graphql = require('graphql');
@@ -117,7 +119,7 @@ const graphQlSchema = graphQlBuilder()
   const args = {};
 
   _.forOwn(fields, (field, propName) => {
-   // Skip all non primitive fields.
+   // Skip all nonprimitive fields.
    if (
     field.type instanceof graphql.GraphQLObjectType ||
     field.type instanceof graphql.GraphQLList
@@ -126,8 +128,8 @@ const graphQlSchema = graphQlBuilder()
    }
 
    args[propName + 'NotEq'] = {
-    // For our filter the type of the value needs to be
-    // the same as the type of the field.
+    // For our filter the type of value needs to be
+    // the same as the type of field.
     type: field.type,
 
     query: (query, value) => {
@@ -144,20 +146,20 @@ const graphQlSchema = graphQlBuilder()
 
 # Auto Generated JsonSchema
 
-This package will auto generate the `jsonSchema` for you if you don't have one.
-It will use the model's table schema to generate structure the jsonSchema.
+This package will auto-generate the `jsonSchema` for you if you don't have one.
+It will use the model's table schema to generate the structure of the jsonSchema.
 
 # Extending your schema with mutations
 
 Often you need to provide mutations in your GraphQL schema. At the same time mutations can be quite opinionated with side effects and complex business logic, so plain CUD implementation is not always a good idea.
-Therefore, we provide a method `extendWithMutations` which allows you to extend the generated query schema with mutations. You can provide a root `GraphQLObjectType` or a function as a first argument for this method.
+Therefore, we provide a method `extendWithMutations` which allows you to extend the generated query schema with mutations. You can provide a root `GraphQLObjectType` or a function as the first argument for this method.
 Function in this case plays as a strategy which receives current builder as a first argument and returns `GraphQLObjectType`.
 
 ```js
 //...
 const personType = new GraphQLObjectType({
  name: 'PersonType',
- description: 'Use this object to create new person',
+ description: 'Use this object to create a new person',
  fields: () => ({
   id: {
    type: new GraphQLNonNull(GraphQLInt),
@@ -221,9 +223,9 @@ schema = mainModule
 
 # Extending your schema with subscriptions
 
-When you want to implement a real-time behavior in your app like push notifications, you basically have two options in graphql: subscriptions and live queries. The first approach is focused on events and granular control over updates, while the other is based on smart live queries, where most of real-rime magic is hidden from the client. We'd like to stick with the first approach since there are some decent implementations out there like [graphql-subscriptions](https://github.com/apollographql/graphql-subscriptions) by Apollo.
+When you want to implement a real-time behavior in your app like push notifications, you basically have two options in graphql: subscriptions and live queries. The first approach is focused on events and granular control over updates, while the other is based on smart live queries, where most of real-time magic is hidden from the client. We'd like to stick with the first approach since there are some decent implementations out there like [graphql-subscriptions](https://github.com/apollographql/graphql-subscriptions) by Apollo.
 
-The implementation is similar to mutations extention point: you've got an `extendWithSubscriptions` method where you can pass the root `GraphQLObjectType` or a function which can bahave as a strategy which receives current builder as an argument.
+The implementation is similar to the mutations extension point: you've got an `extendWithSubscriptions` method where you can pass the root `GraphQLObjectType` or a function that can behave as a strategy that receives the current builder as an argument.
 
 ```js
 //...
@@ -303,7 +305,7 @@ const graphQlSchema = graphQlBuilder()
 
 Now you would have `myProp_lt: value` instead of the default `myPropLt: value`.
 
-By default the model names are pluralized by adding an `s` to the end of the camelized table name. You can set a custom
+By default, the model names are pluralized by adding an `s` to the end of the camelized table name. You can set a custom
 plural and singular names for the root fields like so:
 
 ```js
@@ -322,31 +324,31 @@ You can modify the root query by passing an object with `onQuery` method as the 
 
 ```js
 const graphQlSchema = graphQlBuilder()
- .model(Movie)
- .model(Person)
- .model(Review)
- .build();
+    .model(Movie)
+    .model(Person)
+    .model(Review)
+    .build();
 
 expressApp.get('/graphql', (req, res, next) => {
- graphql(graphQlSchema, req.query.graph, {
-  // builder is an objection.js query builder.
-  onQuery(builder) {
-   // You can for example store the the logged in user to builder context
-   // so that it can be accessed from model hooks.
-   builder.mergeContext({
-    user: req.user,
-   });
+    graphql(graphQlSchema, req.query.graph, {
+        // builder is an objection.js query builder.
+        onQuery(builder) {
+            // You can for example store the logged in user to builder context
+            // so that it can be accessed from model hooks.
+            builder.mergeContext({
+                user: req.user,
+            });
 
-   // Or change the eager fetching algorithm.
-   builder.eagerAlgorithm(Model.JoinEagerAlgorithm);
-  },
- })
-  .then((result) => {
-   res.send(result);
-  })
-  .catch((err) => {
-   next(err);
-  });
+            // Or change the eager fetching algorithm.
+            builder.eagerAlgorithm(Model.JoinEagerAlgorithm);
+        },
+    })
+        .then((result) => {
+            res.send(result);
+        })
+        .catch((err) => {
+            next(err);
+        });
 });
 ```
 
