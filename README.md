@@ -27,10 +27,6 @@ const Person = require('./models/Person');
 const Review = require('./models/Review');
 
 // This is all you need to do to generate the schema.
-const graphQlSchema = graphQlBuilder()
- .allModels([Movie, Person, Review])
- .build();
-
 const graphQlSchema = async () => {
  const builder = await graphQlBuilder().allModels([Movie, Person, Review]);
 
