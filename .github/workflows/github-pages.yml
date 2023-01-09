@@ -23,6 +23,7 @@ concurrency:
 jobs:
   # Build job
   build:
+    if: github.repository == 'firassziedan/objectionjs-graphql'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
