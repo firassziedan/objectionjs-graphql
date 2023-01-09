@@ -1,6 +1,7 @@
 # objectionjs-graphql
 
-[![npm version](https://badge.fury.io/js/objectionjs-graphql.svg)](https://badge.fury.io/js/objectionjs-graphql)
+![npm version](https://badge.fury.io/js/objectionjs-graphql.svg)
+![downloads](https://img.shields.io/npm/dm/objectionjs-graphql.svg)
 
 Automatic GraphQL API generator for objection.js models.
 
