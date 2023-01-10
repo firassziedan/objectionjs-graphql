@@ -9,9 +9,13 @@
     "objectionjs",
     "objection-graphql"
   ],
+  "homepage": "https://firassziedan.github.io/objectionjs-graphql",
+  "bugs": {
+    "url": "https://github.com/firassziedan/objectionjs-graphql/issues"
+  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/SeveralBrands/objection-graphql.git"
+    "url": "git://github.com/firassziedan/objectionjs-graphql.git"
   },
   "license": "MIT",
   "author": "Firass Ziedan <firass.ziedan@gmail.com>",
@@ -46,5 +50,8 @@
   },
   "engines": {
     "node": ">= 14.0.0"
+  },
+  "publishConfig": {
+    "tag": "latest"
   }
 }
