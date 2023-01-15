@@ -40,7 +40,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-standard": "^5.0.0",
     "expect.js": "^0.3.1",
-    "graphql": "^0.13.2",
+    "graphql": "^16.6.0",
     "objection": "^3.0.1",
     "standart": "^6.1.0"
   },
