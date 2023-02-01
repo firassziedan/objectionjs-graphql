@@ -10,6 +10,12 @@ Automatic GraphQL API generator for objection.js models.
 ## Credit
 This project is based on [objection-graphql](https://www.npmjs.com/package/objection-graphql)
 
+
+## To Do
+- [ ] Add support for custom GraphQl query builder (documentation)
+- [ ] Add support for custom jsonSchema attribute (documentation)
+- [ ] Add support for the cache layer
+
 ## Usage
 
 objectionjs-graphql automatically generates a [GraphQL](https://github.com/facebook/graphql) schema
