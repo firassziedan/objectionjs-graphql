@@ -14,7 +14,7 @@ This project is based on [objection-graphql](https://www.npmjs.com/package/objec
 ## To Do
 - [ ] Add support for custom GraphQl query builder (documentation)
 - [ ] Add support for custom jsonSchema attribute (documentation)
-- [ ] Add support for the cache layer
+- [ ] Improve cache layer
 
 ## Usage
 
@@ -37,7 +37,24 @@ const Review = require('./models/Review');
 
 // This is all you need to do to generate the schema.
 const graphQlSchema = async () => {
- const builder = await graphQlBuilder().allModels([Movie, Person, Review]);
+ const builder = await graphQlBuilder(
+// Cache Options
+    {
+        host: 'localhost',
+        port: 6379,
+        redisKeyPrefix: 'gqlCache',
+        timeout: 10
+    }
+ ).allModels([Movie, Person, Review]);
+// Specifying Cache options when building the GraphQL schema is not necessary but it can drastically improve performance
+// GraphQL Caching options are : "host, port, redisKeyPrefix, timeout"
+
+// 'host' and 'port' specify the host and port of your Redis connection
+
+// 'redisKeyPrefix' is a prefix for all the cached Redis keys, default value is 'gqlCache'
+
+// 'timeout' specifies the age of each cached Redis key in seconds, defaults to 1 hour, you might need to change this value in case your 
+// system faces data updates often
 
  return builder.build();
 };
