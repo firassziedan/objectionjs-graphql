@@ -83,6 +83,38 @@ the filter is mapped into a where clause `where name like '%erminato%'`. Similar
 a `where age <= 100` clause. In addition to the property filters, there are some special arguments like `orderBy` and
 `range`. Check out [this table](#filters) for a complete list of filter arguments available by default.
 
+### Setup with HTTP (Express.js) package
+
+#### [graphql-http](https://www.npmjs.com/package/graphql-http)
+
+```js
+    const { graphQlSchema } = require('./graphql') // your graphql schema
+    const graphQlSchemaResult = await graphQlSchema()
+    const { createHandler } = require('graphql-http/lib/use/express')
+    
+    app.use('/graphql', (req, res, next) => {
+      res.set('Content-Security-Policy', 'default-src *; style-src \'self\' http://* \'unsafe-inline\'; script-src \'self\' http://* \'unsafe-inline\' \'unsafe-eval\'')
+    
+      next()
+    }, createHandler({
+      schema: graphQlSchemaResult, context: (req, res, params) => ({ req, res, params })
+    }))
+```
+
+#### [express-graphql](https://www.npmjs.com/package/express-graphql) (deprecated)
+
+```js
+    const { graphQlSchema } = require('./graphql') // your graphql schema
+    const graphQlSchemaResult = await graphQlSchema()
+    const { graphqlHTTP } = require('express-graphql')
+    
+    app.use('/graphql', (req, res, next) => {
+      res.set('Content-Security-Policy', 'default-src *; style-src \'self\' http://* \'unsafe-inline\'; script-src \'self\' http://* \'unsafe-inline\' \'unsafe-eval\'')
+    
+      next()
+    }, graphqlHTTP({ schema: graphQlSchemaResult }))
+```
+
 # Getting started
 
 If you are already using objection.js the example in the [usage](#usage) section is all you need to get started.
