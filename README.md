@@ -436,13 +436,17 @@ const Movie = require('./models/Movie');
 const Person = require('./models/Person');
 const Review = require('./models/Review');
 
-const graphQlSchema = async() => {
-  const builder = await graphQlBuilder({
-    host: 'localhost',
-    port: 6379,
-    redisKeyPrefix: 'gqlCache',
-    timeout: 10
-  }).allModels([Movie, Person, Review]);
+const graphQlSchema = async () => {
+ const builder = await graphQlBuilder({
+// Builder options, currently only 'redis' is available
+        redis: {
+            host: 'localhost',
+            port: 6379,
+            redisKeyPrefix: 'gqlCache',
+            cacheTimeout: 10
+        }
+    }
+ ).allModels([Movie, Person, Review]);
 
   return builder.build();
 };
