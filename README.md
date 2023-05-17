@@ -89,30 +89,30 @@ a `where age <= 100` clause. In addition to the property filters, there are some
 
 ```js
     const { graphQlSchema } = require('./graphql') // your graphql schema
-    const graphQlSchemaResult = await graphQlSchema()
-    const { createHandler } = require('graphql-http/lib/use/express')
-    
-    app.use('/graphql', (req, res, next) => {
-      res.set('Content-Security-Policy', 'default-src *; style-src \'self\' http://* \'unsafe-inline\'; script-src \'self\' http://* \'unsafe-inline\' \'unsafe-eval\'')
-    
-      next()
-    }, createHandler({
-      schema: graphQlSchemaResult, context: (req, res, params) => ({ req, res, params })
-    }))
+const graphQlSchemaResult = await graphQlSchema()
+const { createHandler } = require('graphql-http/lib/use/express')
+
+app.use('/graphql', (req, res, next) => {
+  res.set('Content-Security-Policy', 'default-src *; style-src \'self\' http://* \'unsafe-inline\'; script-src \'self\' http://* \'unsafe-inline\' \'unsafe-eval\'')
+
+  next()
+}, createHandler({
+  schema: graphQlSchemaResult, context: (req, res, params) => ({ req, res, params })
+}))
 ```
 
 #### [express-graphql](https://www.npmjs.com/package/express-graphql) (deprecated)
 
 ```js
     const { graphQlSchema } = require('./graphql') // your graphql schema
-    const graphQlSchemaResult = await graphQlSchema()
-    const { graphqlHTTP } = require('express-graphql')
-    
-    app.use('/graphql', (req, res, next) => {
-      res.set('Content-Security-Policy', 'default-src *; style-src \'self\' http://* \'unsafe-inline\'; script-src \'self\' http://* \'unsafe-inline\' \'unsafe-eval\'')
-    
-      next()
-    }, graphqlHTTP({ schema: graphQlSchemaResult }))
+const graphQlSchemaResult = await graphQlSchema()
+const { graphqlHTTP } = require('express-graphql')
+
+app.use('/graphql', (req, res, next) => {
+  res.set('Content-Security-Policy', 'default-src *; style-src \'self\' http://* \'unsafe-inline\'; script-src \'self\' http://* \'unsafe-inline\' \'unsafe-eval\'')
+
+  next()
+}, graphqlHTTP({ schema: graphQlSchemaResult }))
 ```
 
 # Getting started
@@ -194,11 +194,11 @@ It will use the model's table schema to generate the structure of the jsonSchema
 
 # Extending your schema with mutations
 
-Often you need to provide mutations in your GraphQL schema. At the same time mutations can be quite opinionated with
+Often you need to provide mutations in your GraphQL schema. At the same time, mutations can be quite opinionated with
 side effects and complex business logic, so plain CUD implementation is not always a good idea.
 Therefore, we provide a method `extendWithMutations` which allows you to extend the generated query schema with
 mutations. You can provide a root `GraphQLObjectType` or a function as the first argument for this method.
-Function in this case plays as a strategy which receives current builder as a first argument and
+Function in this case plays as a strategy that receives the current builder as a first argument and
 returns `GraphQLObjectType`.
 
 ```js
@@ -270,8 +270,8 @@ schema = mainModule
 # Extending your schema with subscriptions
 
 When you want to implement a real-time behavior in your app like push notifications, you basically have two options in
-graphql: subscriptions and live queries. The first approach is focused on events and granular control over updates,
-while the other is based on smart live queries, where most of real-time magic is hidden from the client. We'd like to
+GraphQl: subscriptions and live queries. The first approach focuses on events and granular control over updates,
+while the other is based on smart live queries, where most real-time magic is hidden from the client. We'd like to
 stick with the first approach since there are some decent implementations out there
 like [graphql-subscriptions](https://github.com/apollographql/graphql-subscriptions) by Apollo.
 
@@ -358,8 +358,8 @@ const graphQlSchema = graphQlBuilder()
 
 Now you would have `myProp_lt: value` instead of the default `myPropLt: value`.
 
-By default, the model names are pluralized by adding an `s` to the end of the camelized table name. You can set a custom
-plural and singular names for the root fields like so:
+By default, the model names are pluralized by adding an `s` to the end of the caramelized table name.
+You can set a custom plural and singular names for the root fields like so:
 
 ```js
 const graphQlSchema = graphQlBuilder()
@@ -411,21 +411,22 @@ Allows you to customize **Objection** query builder behavior. For instance, you 
 options argument. So, each time the builder is called, it will be called with **skipUndefined** enabled.
 This can be useful when you use [graphql-tools](https://github.com/apollographql/graphql-tools) schema stitching.
 
-## Cacheing
+## Caching
 
-We add a cache layer to the graphql builder.
+We add a cache layer to the GraphQl builder.
 This is useful when you have a lot of queries that are similar.
 You can enable the cache by passing a cache object to the builder.
 
-Specifying Cache options when building the GraphQL schema is not necessary but it can drastically improve performance
-GraphQL Caching options are : `host, port, redisKeyPrefix, timeout`
+Specifying Cache options when building the GraphQL schema is not necessary, but it can drastically improve performance
+GraphQL Caching options are: `host, port, redisKeyPrefix, timeout`
 
 `host` and `port` specify the host and port of your Redis connection
 
-`redisKeyPrefix` is a prefix for all the cached Redis keys, default value is 'gqlCache'
+`redisKeyPrefix` is a prefix for all the cached Redis keys, the default value is 'gqlCache'
 
-`timeout` specifies the age of each cached Redis key in seconds, defaults to 1 hour, you might need to change this value
-in case your system often faces data updates
+`timeout` specifies the age of each cached Redis key in seconds, and defaults to 1 hour, you might need to change this
+value
+in case your system often faces data updates.
 
 ```js
 const graphql = require('graphql').graphql;
@@ -438,11 +439,15 @@ const Review = require('./models/Review');
 
 const graphQlSchema = async() => {
   const builder = await graphQlBuilder({
-    host: 'localhost',
-    port: 6379,
-    redisKeyPrefix: 'gqlCache',
-    timeout: 10
-  }).allModels([Movie, Person, Review]);
+      // Builder options, currently only 'redis' is available
+      redis: {
+        host: 'localhost',
+        port: 6379,
+        redisKeyPrefix: 'gqlCache',
+        cacheTimeout: 10
+      }
+    }
+  ).allModels([Movie, Person, Review]);
 
   return builder.build();
 };
