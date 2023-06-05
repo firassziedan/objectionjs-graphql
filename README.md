@@ -424,10 +424,12 @@ GraphQL Caching options are: `host, port, redisKeyPrefix, timeout`
 
 `redisKeyPrefix` is a prefix for all the cached Redis keys, the default value is 'gqlCache'
 
-`timeout` specifies the age of each cached Redis key in seconds, and defaults to 1 hour, you might need to change this value in case your system often faces data updates.
+`timeout` specifies the age of each cached Redis key in seconds, and defaults to 1 hour, you might need to change this
+value in case your system often faces data updates.
 
-If you want to skip caching for testing purposes while still maintaining your cache layer, you can provide a `skipCache` flag to disable caching for specific requests inside your request parameters or in the queryString, this must be configured in your `createHandler` express middleware.
-
+If you want to skip caching for testing purposes while still maintaining your cache layer, you can provide a `skipCache`
+flag to disable caching for specific requests inside your request parameters or in the queryString, this must be
+configured in your `createHandler` express middleware.
 
 ```js
 const graphql = require('graphql').graphql;
@@ -464,10 +466,10 @@ app.use('/graphql', (req, res, next) => {
       req,
       res: {
         ...res,
-        skipCache : (req.raw.query['skipCache'] === 'true')
+        skipCache: (req.raw.query['skipCache'] === 'true')
       },
       params
-       }
     }
+  }
 }))
 ```
